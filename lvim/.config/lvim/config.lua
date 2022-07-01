@@ -13,6 +13,8 @@ an executable
 -- lvim.opt.timeoutlen = 1000
 -- lvim.opt.ttimeoutlen = 0
 
+-- vim.opt.guicursor = a:blinkon100
+
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeoutlen = 0
 lvim.log.level = "warn"
@@ -23,9 +25,15 @@ lvim.format_on_save = true
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+-- 1
+
+-- vim.keymap.del("n", "<C-a>")
+-- vim.keymap.del("n", "<C-a>")
+-- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+vim.keymap.set("n", "<C-a>", "ggVG")
+-- lvim.keys.normal_mode["<C-a>"] = "gg<S-v>G"
+
 -- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 -- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 
@@ -132,8 +140,9 @@ local h = require("null-ls.helpers")
 local cmd_resolver = require("null-ls.helpers.command_resolver")
 local u = require("null-ls.utils")
 formatters.setup {
-  { command = "prettier", filetypes = { "typescript" } },
-  -- { command = "isort", filetypes = { "python" } },
+  -- { command = "prettier", filetypes = { "typescript" } },
+  { command = "black", filetypes = { "python" } },
+  { command = "isort", filetypes = { "python" } },
   {
     command = "prettier",
     args = h.range_formatting_args_factory({
