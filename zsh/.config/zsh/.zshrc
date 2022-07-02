@@ -99,5 +99,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 
 
 # fnm
+path+=('/home/kverma/.local/bin/')
+export PATH
 export PATH=/home/kverma/.fnm:$PATH
 eval "`fnm env`"
