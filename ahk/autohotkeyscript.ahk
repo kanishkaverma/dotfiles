@@ -1,3 +1,6 @@
+
+GroupAdd, windowGroup, ahk_exe Code.exe
+GroupAdd, windowGroup, ahk_exe mintty.exe
 ; ===============for caps lock stuff======================
 *CapsLock::
     Send {Blind}{Ctrl Down}
@@ -14,23 +17,20 @@ Return
 ; ========================================================
 
 ; ===============for hjkl stuff======================
-GroupAdd, windowGroup, ahk_exe Code.exe
-
 #IfWinNotActive ahk_group windowGroup  
 ^h::
    SendInput, {Ctrl up}{left}{Ctrl down}
 Return
-#IfWinNotActive ahk_exe Code.exe 
 ^j::
    SendInput, {Ctrl up}{down}{Ctrl down}
 Return
-#IfWinNotActive ahk_exe Code.exe 
 ^k::
    SendInput, {Ctrl up}{up}{Ctrl down}
 Return
-#IfWinNotActive ahk_exe Code.exe 
 ^l::
    Send {Ctrl up}{Right}{Ctrl down}
 Return
-; ========================================================
+; ===========================================
+
+
 
