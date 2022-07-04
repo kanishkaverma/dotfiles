@@ -14,13 +14,22 @@ an executable
 -- lvim.opt.ttimeoutlen = 0
 
 -- vim.opt.guicursor = a:blinkon100
+-- vim.opt.guitermcolors = true
 
 vim.opt.timeoutlen = 1000
 vim.opt.ttimeoutlen = 0
-lvim.log.level = "warn"
+lvim.log.level = "debug"
 lvim.format_on_save = true
 -- to disable icons and use a minimalist setup, uncomment the following
+
 -- lvim.use_icons = false
+-- lvim.autocommands.custom_groups = {
+--   {
+--     "BufWritePost",
+--     vim.fn.resolve(require("config").path),
+--     "lua require('utils').reload_lv_config()"
+--   },
+-- }
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -31,6 +40,7 @@ lvim.leader = "space"
 -- vim.keymap.del("n", "<C-a>")
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 vim.keymap.set("n", "<C-a>", "ggVG")
+
 -- lvim.keys.normal_mode["<C-a>"] = "gg<S-v>G"
 
 -- unmap a default keymapping
@@ -75,6 +85,11 @@ lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.terminal.open_mapping = "<C-\\>"
+lvim.builtin.terminal.size = 30
+
+
+
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -210,14 +225,33 @@ lvim.plugins = {
   { "catppuccin/nvim" },
   -- { "karb94/neoscroll.nvim" },
   { "max397574/better-escape.nvim" },
+  { "rlane/pounce.nvim" },
   -- {
 
   --   cmd = "TroubleToggle",
   --   "folke/trouble.nvim",
   -- },
 }
--- lua, default settings
 
+-- lua, default settings
+require 'pounce'.setup {
+  accept_keys = "JFKDLSAHGNUVRBYTMICEOXWPQZ",
+  accept_best_key = "<enter>",
+  multi_window = true,
+  debug = false,
+}
+
+
+lvim.keys.normal_mode['s'] = "<cmd>Pounce<CR>"
+lvim.keys.normal_mode['S'] = "<cmd>PounceRepeat<CR>"
+lvim.keys.normal_mode['<esc><esc>'] = "<cmd>:nohl<CR>"
+-- lvim.keys.visual_mode['s'] = "<cmd>Pounce<CR>"
+-- lvim.keys.normal_mode['s'] = "<cmd>Pounce<CR>"
+-- "-- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+-- vim.opt.map = nmap s <cmd>Pounce<CR>
+-- nmap S <cmd>PounceRepeat<CR>
+-- vmap s <cmd>Pounce<CR>
+-- omap gs <cmd>Pounce<CR>
 
 
 -- require("better_escape").setup {
