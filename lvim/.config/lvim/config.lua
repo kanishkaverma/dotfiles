@@ -31,15 +31,20 @@ lvim.format_on_save = true
 --   },
 -- }
 
+
+require 'kanagawa'.setup({ globalStatus = true, ... })
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 -- 1
 
--- vim.keymap.del("n", "<C-a>")
+-- lvim.keymap.del("n", "<C-a>")
 -- vim.keymap.del("n", "<C-a>")
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-vim.keymap.set("n", "<C-a>", "ggVG")
+-- vim.keymap.set("n", "<C-a>", "ggVG")
+lvim.keys.normal_mode["<Leader>a"] = "ggVG"
+vim.keymap.set("n", "<C-6>", "<C-^>")
+-- vim.keymap.set("n", "<C-a>", "ggVG")
 
 -- lvim.keys.normal_mode["<C-a>"] = "gg<S-v>G"
 
@@ -225,13 +230,35 @@ lvim.plugins = {
   { "catppuccin/nvim" },
   -- { "karb94/neoscroll.nvim" },
   { "max397574/better-escape.nvim" },
+
   { "rlane/pounce.nvim" },
+  {
+    "karb94/neoscroll.nvim",
+    event = "WinScrolled",
+    config = function()
+      require('neoscroll').setup({
+        -- All these keys will be mapped to their corresponding default scrolling animation
+        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
+          '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+        hide_cursor = true, -- Hide cursor while scrolling
+        stop_eof = true, -- Stop at <EOF> when scrolling downwards
+        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+        respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        easing_function = nil, -- Default easing function
+        pre_hook = nil, -- Function to run before the scrolling animation starts
+        post_hook = nil, -- Function to run after the scrolling animation ends
+      })
+    end
+  },
   -- {
 
   --   cmd = "TroubleToggle",
   --   "folke/trouble.nvim",
   -- },
 }
+
+
 
 -- lua, default settings
 require 'pounce'.setup {
@@ -266,6 +293,8 @@ lvim.keys.normal_mode['<esc><esc>'] = "<cmd>:nohl<CR>"
 
 -- }
 lvim.colorscheme = "kanagawa"
+
+lvim.lsp.buffer_mappings.normal_mode["gr"] = { "<cmd>Telescope lsp_references<cr>", "Go to Definiton" }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
