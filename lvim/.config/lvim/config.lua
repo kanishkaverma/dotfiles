@@ -16,10 +16,10 @@ an executable
 -- vim.opt.guicursor = a:blinkon100
 -- vim.opt.guitermcolors = true
 
-vim.opt.timeoutlen = 1000
+vim.opt.timeoutlen = 0
 vim.opt.ttimeoutlen = 0
 lvim.log.level = "debug"
-lvim.format_on_save = true
+lvim.format_on_save = false 
 -- to disable icons and use a minimalist setup, uncomment the following
 
 -- lvim.use_icons = false
@@ -32,7 +32,7 @@ lvim.format_on_save = true
 -- }
 
 
-require 'kanagawa'.setup({ globalStatus = true, ... })
+-- require 'kanagawa'.setup({ globalStatus = true, ... })
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
@@ -43,6 +43,10 @@ lvim.leader = "space"
 -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- vim.keymap.set("n", "<C-a>", "ggVG")
 lvim.keys.normal_mode["<Leader>a"] = "ggVG"
+lvim.keys.normal_mode["<C-h>"] = "<C-w>h"
+lvim.keys.normal_mode["<C-l>"] = "<C-w>l"
+lvim.keys.normal_mode["<C-j>"] = "<C-w>j"
+lvim.keys.normal_mode["<C-k>"] = "<C-w>k"
 vim.keymap.set("n", "<C-6>", "<C-^>")
 -- vim.keymap.set("n", "<C-a>", "ggVG")
 
@@ -54,21 +58,22 @@ vim.keymap.set("n", "<C-6>", "<C-^>")
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
+local _, actions = pcall(require, "telescope.actions")
+lvim.builtin.telescope.defaults.mappings = {
+  -- for input mode
+  i = {
+    ["<C-j>"] = actions.move_selection_next,
+    ["<C-k>"] = actions.move_selection_previous,
+    ["<C-n>"] = actions.cycle_history_next,
+    ["<C-p>"] = actions.cycle_history_prev,
+  },
+  -- for normal mode
+  n = {
+    ["<C-j>"] = actions.move_selection_next,
+    ["<C-k>"] = actions.move_selection_previous,
+    ["<esc>"] = actions.close
+  },
+}
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -91,6 +96,8 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.terminal.open_mapping = "<C-\\>"
+-- lvim.builin.plugin.toggleTerm = false 
+
 lvim.builtin.terminal.size = 30
 
 
@@ -166,6 +173,8 @@ formatters.setup {
   {
     command = "prettier",
     args = h.range_formatting_args_factory({
+      "--config",
+      "migadmin/prettier-config.js",
       "--stdin-filepath",
       "$FILENAME",
     }, "--range-start", "--range-end", { row_offset = -1, col_offset = -1 }),
@@ -217,7 +226,6 @@ linters.setup {
   -- },
   {
     command = "eslint_d",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
     filetypes = { "javascript", "javascriptreact" },
   },
 }
@@ -272,6 +280,7 @@ require 'pounce'.setup {
 lvim.keys.normal_mode['s'] = "<cmd>Pounce<CR>"
 lvim.keys.normal_mode['S'] = "<cmd>PounceRepeat<CR>"
 lvim.keys.normal_mode['<esc><esc>'] = "<cmd>:nohl<CR>"
+vim.g.catppuccin_flavour =  'mocha'
 -- lvim.keys.visual_mode['s'] = "<cmd>Pounce<CR>"
 -- lvim.keys.normal_mode['s'] = "<cmd>Pounce<CR>"
 -- "-- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
@@ -292,7 +301,7 @@ lvim.keys.normal_mode['<esc><esc>'] = "<cmd>:nohl<CR>"
 --   --   return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
 
 -- }
-lvim.colorscheme = "kanagawa"
+lvim.colorscheme = "catppuccin"
 
 lvim.lsp.buffer_mappings.normal_mode["gr"] = { "<cmd>Telescope lsp_references<cr>", "Go to Definiton" }
 
